@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:quize_app/quize_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
+QuizeBrain quizeBrain = QuizeBrain();
 void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    title: "Quize App",
-    theme: ThemeData(
-      primarySwatch: Colors.teal,
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: "Quize App",
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+      ),
+      home: QuizePage(),
     ),
-    home: QuizePage(),
-  ));
+  );
 }
 
 class QuizePage extends StatefulWidget {
@@ -17,15 +22,34 @@ class QuizePage extends StatefulWidget {
 }
 
 class _QuizePageState extends State<QuizePage> {
-  List scoreKipper = [];
-  List<String> question = [
-    'This is a ball',
-    'This is a bat',
-    'This is a apple'
-  ];
-  List<bool> answer = [false, true, true];
+  List<Icon> scoreKipper = [];
 
-  int questionNumber = 0;
+  void checkedAnswer(bool userPickedAnser) {
+    bool correctAnswer = quizeBrain.getQuestionAnswer();
+    setState(() {
+      if (quizeBrain.isFinised() == true) {
+        Alert(
+          context: context,
+          title: "কুইজ শেষ হয়েছে",
+          desc: "ধন্যবাদ",
+        ).show();
+        quizeBrain.reSet();
+        scoreKipper = [];
+      } else {
+        if (correctAnswer == userPickedAnser) {
+          scoreKipper.add(
+            Icon(Icons.check, color: Colors.green),
+          );
+        } else {
+          scoreKipper.add(
+            Icon(Icons.close, color: Colors.red),
+          );
+        }
+        quizeBrain.nextQuestion();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,10 +60,20 @@ class _QuizePageState extends State<QuizePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
+              SizedBox(
+                height: 80,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: scoreKipper,
+                ),
+              ),
               Expanded(
                 child: Center(
                   child: Text(
-                    question[questionNumber],
+                    quizeBrain.getQuestionTxt(),
                     style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -57,18 +91,11 @@ class _QuizePageState extends State<QuizePage> {
                             EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         color: Colors.green,
                         onPressed: () {
-                          bool correctAnswer = answer[questionNumber];
-                          if(correctAnswer == true){
-                            print("ok");
-                          }else{
-                           print("wrong");
-                          }
-                          setState(() {
-                            questionNumber++;
-                          });
+                          checkedAnswer(true);
                         },
                         child: Text(
-                          "True",
+                          "সত্য",
+                          textAlign: TextAlign.justify,
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 20.0,
@@ -85,12 +112,11 @@ class _QuizePageState extends State<QuizePage> {
                             EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         color: Colors.red,
                         onPressed: () {
-                          setState(() {
-                            questionNumber++;
-                          });
+                          checkedAnswer(false);
                         },
                         child: Text(
-                          "False",
+                          "মিথ্যা",
+                          textAlign: TextAlign.justify,
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 20.0,
@@ -98,18 +124,9 @@ class _QuizePageState extends State<QuizePage> {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: <Widget>[
-                  Icon(Icons.check, color: Colors.green),
-                  Icon(Icons.check, color: Colors.red),
-                ],
-              )
             ],
           ),
         ),
