@@ -2,16 +2,10 @@
 
 A new Flutter project.
 
-## Getting Started
+##This is very simple Application.But in this application i implemented all concept of Object Oriented Programming.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 # flutter-quize-app
+
+![quize](https://user-images.githubusercontent.com/29401466/81103379-c5ecf900-8f32-11ea-9aaa-2c952d567b92.jpg)
+![quize-alert](https://user-images.githubusercontent.com/29401466/81103402-cc7b7080-8f32-11ea-9cdf-78c8c2403a3d.jpg)
+
