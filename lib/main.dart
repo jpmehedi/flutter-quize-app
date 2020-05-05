@@ -17,6 +17,15 @@ class QuizePage extends StatefulWidget {
 }
 
 class _QuizePageState extends State<QuizePage> {
+  List scoreKipper = [];
+  List<String> question = [
+    'This is a ball',
+    'This is a bat',
+    'This is a apple'
+  ];
+  List<bool> answer = [false, true, true];
+
+  int questionNumber = 0;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,7 +39,7 @@ class _QuizePageState extends State<QuizePage> {
               Expanded(
                 child: Center(
                   child: Text(
-                    "This is Question Section",
+                    question[questionNumber],
                     style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -47,7 +56,17 @@ class _QuizePageState extends State<QuizePage> {
                         padding:
                             EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         color: Colors.green,
-                        onPressed: () {},
+                        onPressed: () {
+                          bool correctAnswer = answer[questionNumber];
+                          if(correctAnswer == true){
+                            print("ok");
+                          }else{
+                           print("wrong");
+                          }
+                          setState(() {
+                            questionNumber++;
+                          });
+                        },
                         child: Text(
                           "True",
                           style: TextStyle(
@@ -66,7 +85,9 @@ class _QuizePageState extends State<QuizePage> {
                             EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                         color: Colors.red,
                         onPressed: () {
-
+                          setState(() {
+                            questionNumber++;
+                          });
                         },
                         child: Text(
                           "False",
